@@ -32,11 +32,11 @@ def signup():
     else:
         return jsonify({'Error' : 'Type the correct number'})
 
-@auth.route('/signin', methods=['GET'])
+@auth.route('/signin', methods=['POST'])
 def signin():
     phone_number = request.json['phone_number']
     user = users.find_one({'phone_number' : phone_number})
-    
+
     if user:
         if bcrypt.hashpw(request.json['password'].encode('utf-8'), user['password']) == user['password']:
             session['current_user'] = user
@@ -48,4 +48,3 @@ def logout():
     if 'current_user' in session:
         session.pop('current_user', None)
     return jsonify({'message' : 'You successfully logged out'})
-
