@@ -45,7 +45,7 @@ def signin():
 
     return jsonify({'message' : 'Invalid email/password combination'})
 
-@auth.route('/logout', methods=['POST'])  # Change to post after
+@auth.route('/logout', methods=['POST'])
 def logout():
     if 'current_user' in session:
         session.pop('current_user', None)

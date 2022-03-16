@@ -13,7 +13,7 @@ def index():
 
 @event.route('/user/<user_id>', methods=['GET'])
 def get_events_by_user(user_id):
-    output = [e for e in events.find({'user_id': user_id})]
+    output = [e for e in events.find({'owner_id': user_id})]
     if output:
         return jsonify({'meetings result' : output}), 200
 

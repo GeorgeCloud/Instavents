@@ -18,3 +18,6 @@ def get_one_user(user_id):
         return jsonify({'result': user}), 200
 
     return jsonify({'result' : 'User is not found'}), 404
+
+#What if user signin => signin route
+#What if user signin => signup route
