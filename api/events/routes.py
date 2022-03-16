@@ -6,33 +6,37 @@ import uuid
 event = Blueprint("event", __name__)
 
 @event.route('/', methods=['GET'])
-def get_events():
-    event_result = []
-    for event in events.find():
-        event_result.append({'name' : event['name'], 'meeting_name': event['meeting_name'], 'date': event['date'], 'time': event['time']})
+def index():
+    output = [event for event in events.find()]
 
-    return jsonify({'meetings result' : event_result})
+    return jsonify({'meetings result' : output}), 200
 
-@event.route('/<meeting_id>', methods=['GET'])
-def get_one_event(meeting_id):
-    event = events.find_one({'_id': meeting_id})
+@event.route('/user/<user_id>', methods=['GET'])
+def get_events_by_user(user_id):
+    output = [e for e in events.find({'user_id': user_id})]
+    if output:
+        return jsonify({'meetings result' : output}), 200
 
+    return jsonify({'event result' : 'not found'}), 404
+
+@event.route('/<event_id>', methods=['GET'])
+def show_event(event_id):
+    event = events.find_one({'_id': event_id})
     if event:
-        output = event
-    else:
-        output = 'event is not found'
-    
-    return jsonify({'event result' : output})
+        return jsonify({'event result' : event}), 200
 
-@event.route('/', methods=['POST'])
-def add_one_event():
+    return jsonify({'event result' : 'not found'}), 404
+
+@event.route('/new', methods=['POST'])
+def new_event():
+    owner_id = request.json['owner_id'] or None
     name = request.json['name']
-    meeting_name = request.json['meeting_name']
+    event_name = request.json['event_name']
+    recipients = request.json['recipients']
     date = request.json['date']
     time = request.json['time']
 
-    event_id = events.insert_one({'_id': uuid.uuid4().hex, 'name': name, 'meeting_name': meeting_name, 'date': date, 'time': time }).inserted_id
-    find_event = events.find_one({'_id' : event_id})
-    return jsonify(find_event)
+    event_id = events.insert_one({'_id': uuid.uuid4().hex, owner_id: None, 'name': name, 'event_name': event_name, 'date': date, 'recipients': recipients, 'time': time}).inserted_id
 
-    # contact_id
+    new_event = events.find_one({'_id' : event_id})
+    return jsonify(new_event), 200

@@ -10,21 +10,23 @@ auth = Blueprint("auth", __name__)
 def signup():
     name = request.json['name']
     phone_number = request.json['phone_number']
-    user_exists = users.find_one({'phone_number': phone_number})
-
-    if user_exists:
-        return jsonify({'Error' : 'The phone number already exists!'})
     password = request.json['password']
-    if len(password) >= 8:
-        hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
-    else:
+
+    if users.find_one({'phone_number': phone_number}):
+        return jsonify({'Error' : 'The phone number already exists!'})
+
+    if len(password) < 8:
         return jsonify({'Error' : 'Password needs to be minimum 8 characters'})
+
+    hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
 
     if len(phone_number) == 12: # +1 123-456-7890
         user_id = users.insert_one({
-            '_id': uuid.uuid4().hex, 'name': name, 'phone_number': phone_number,
-            'password': hashed_password }
-        ).inserted_id
+            '_id': uuid.uuid4().hex,
+            'name': name,
+            'phone_number': phone_number,
+            'password': hashed_password
+        }).inserted_id
 
         new_user = users.find_one({'_id': user_id})
         session['current_user'] = new_user
@@ -36,11 +38,11 @@ def signup():
 def signin():
     phone_number = request.json['phone_number']
     user = users.find_one({'phone_number' : phone_number})
-
     if user:
         if bcrypt.hashpw(request.json['password'].encode('utf-8'), user['password']) == user['password']:
             session['current_user'] = user
             return jsonify([{'name' : user['name'], 'phone_number': user['phone_number']}])
+
     return jsonify({'message' : 'Invalid email/password combination'})
 
 @auth.route('/logout', methods=['POST'])  # Change to post after
