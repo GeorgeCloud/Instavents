@@ -1,4 +1,4 @@
-from flask import Blueprint, redirect, url_for, request, jsonify
+from flask import Blueprint, redirect, url_for, request, jsonify, session
 from api.extensions import *
 from bson.objectid import ObjectId
 import uuid
@@ -13,10 +13,12 @@ def signup():
     user_exists = users.find_one({'phone_number': phone_number})
 
     if user_exists:
-        return({'Error' : 'The phone number already exists!'})
-
+        return jsonify({'Error' : 'The phone number already exists!'})
     password = request.json['password']
-    hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
+    if len(password) >= 8:
+        hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
+    else:
+        return jsonify({'Error' : 'Password needs to be minimum 8 characters'})
 
     if len(phone_number) == 12: # +1 123-456-7890
         user_id = users.insert_one({
@@ -25,21 +27,25 @@ def signup():
         ).inserted_id
 
         new_user = users.find_one({'_id': user_id})
+        session['current_user'] = new_user
         return jsonify([{'name' : new_user['name'], 'phone_number': new_user['phone_number']}])
     else:
-        return({'Error' : 'Type the correct number'})
+        return jsonify({'Error' : 'Type the correct number'})
 
-@auth.route('/login', methods=['GET'])
-def login():
-    return 'Login Page'
+@auth.route('/signin', methods=['GET'])
+def signin():
+    phone_number = request.json['phone_number']
+    user = users.find_one({'phone_number' : phone_number})
+    
+    if user:
+        if bcrypt.hashpw(request.json['password'].encode('utf-8'), user['password']) == user['password']:
+            session['current_user'] = user
+            return jsonify([{'name' : user['name'], 'phone_number': user['phone_number']}])
+    return jsonify({'message' : 'Invalid email/password combination'})
 
-@auth.route('/logout', methods=['GET'])  # Change to post after
+@auth.route('/logout', methods=['POST'])  # Change to post after
 def logout():
-    return redirect(url_for('auth.login'))
+    if 'current_user' in session:
+        session.pop('current_user', None)
+    return jsonify({'message' : 'You successfully logged out'})
 
-@auth.route('/', methods=['GET'])
-def get_users():
-    output = []
-    for user in users.find():
-        output.append({'name' : user['name'], 'phone_number': user['phone_number'], 'password': user['password']})
-    return jsonify({'result' : output})
