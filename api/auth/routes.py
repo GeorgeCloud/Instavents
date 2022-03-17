@@ -1,4 +1,4 @@
-from flask import Blueprint, redirect, url_for, request, jsonify, session
+from flask import Blueprint, request, jsonify, session
 from api.extensions import *
 from bson.objectid import ObjectId
 import uuid

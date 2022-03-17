@@ -34,9 +34,9 @@ def create_event():
 def get_events_by_user(user_id):
     output = [e for e in events.find({'owner_id': user_id})]
     if output:
-        return jsonify({'meetings result' : output}), 200
+        return jsonify({'events result' : output}), 200
 
-    return jsonify({'event result' : 'not found'}), 404
+    return jsonify({'events result' : 'not found'}), 404
 
 @event.route('/<event_id>', methods=['GET'])
 def show_event(event_id):
