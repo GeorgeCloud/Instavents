@@ -21,3 +21,5 @@ def get_one_user(user_id):
 
 #What if user signin => signin route
 #What if user signin => signup route
+#Validate contact & name
+#Twilio
