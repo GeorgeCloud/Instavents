@@ -15,10 +15,6 @@ def index():
 def new_event():
     return render_template('events_new.html')
 
-@event.route('/invite')
-def invite_recipients():
-    return render_template('events_respond.html')
-
 # http://127.0.0.1:5000/events/rsvp/e4a77b17191842fea244d1c484b936b2
 @event.route('/rsvp/<rsvp_id>', methods=['GET', 'POST'])
 def event_response(rsvp_id):
