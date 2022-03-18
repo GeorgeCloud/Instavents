@@ -7,15 +7,19 @@
 
 <div class="d-flex justify-content-center align-items-center">
     <div class="border w-50 py-5">
-        <p>Event title: {{event['event_name']}}</p>
-        <p>host name: {{event['owner_name']}}</p>
-        <p>My Phone number: {{event['phone_number']}}</p>
-        <p>Event time: {{event['time']}}</p>
-        <p>date: {{event['date']}}</p>
-        <p>Friend 1 | Pending</p>
-        <p>Friend 2 | Pending</p>
-        <!-- <button type="button" class="btn btn-primary">Invite more friend</button> -->
-        <button type="submit" class="btn btn-primary mx-2">Done</button>
+        <div class="d-flex align-items-center flex-column font-monospace">
+            <p class="fs-2 border-top border-bottom border-2 pb-2">{{event['event_name']}}</p>
+            <p><b>Host Name:</b> {{event['owner_name']}}</p>
+            <p><b>Host Number:</b> {{event['owner_number']}}</p>
+            <p><b>Event Time:</b> {{event['time']}}</p>
+            <p><b>Date:</b> {{event['date']}}</p>
+            <p><b>Friend 1</b> | Pending</p>
+            <p><b>Friend 2</b> | Pending</p>
+            <!-- <button type="button" class="btn btn-primary">Invite more friend</button> -->
+            <div class="pt-3">
+                <button type="submit" class="btn btn-secondary bg-light text-dark font-monospace px-3">Done</button>
+            </div>
+        </div>
     </div>
 </div>
 
