@@ -10,7 +10,7 @@ load_dotenv()
 
 account_sid = os.getenv('TWILIO_ACCOUNT_SID')
 auth_token = os.getenv('TWILIO_AUTH_TOKEN')
-twilio_phone_number = os.getenv('TWILIO_PHONE_NUMBER') or 7145836122
+twilio_phone_number = os.getenv('TWILIO_PHONE_NUMBER')
 
 client = Client(account_sid, auth_token)
 
@@ -36,7 +36,7 @@ def create_rsvp(recipients, event_id):
             client.messages.create(
                 to=f'{phone_number}',
                 from_=f'{twilio_phone_number}',
-                body=f'https://instavents.herokuapp.com/rsvp/accept/{rsvp_id}'
+                body=f'https://instavents.herokuapp.com/rsvp/{rsvp_id}'
             )
 
 
