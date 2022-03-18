@@ -34,6 +34,8 @@ def event_response(rsvp_id):
 
     rsvps.update_one({'_id': rsvp_id}, {'$set':{'status': response}})
 
+    return 'Thank you for your response! You may close this page'
+
 @event.route('/create', methods=['POST'])
 def create_event():
     owner_id          = session['current_user']['_id'] if 'current_user' in session else None
@@ -73,4 +75,6 @@ def create_event():
 @event.route('/<event_id>', methods=['GET'])
 def show_event(event_id):
     event = events.find_one({'_id': event_id})
-    return render_template('events_show.html', event=event)
+    event_rsvps = rsvps.find({'event_id': event_id})
+
+    return render_template('events_show.html', event=event, rsvps=event_rsvps)
