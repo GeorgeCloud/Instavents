@@ -1,4 +1,4 @@
-from flask import Blueprint, request, jsonify, render_template
+from flask import Blueprint, request, jsonify, render_template, session, redirect, url_for
 from bson.objectid import ObjectId
 from api.twilio_api import create_rsvp
 from extensions import *
@@ -15,18 +15,19 @@ def index():
 def new_event():
     return render_template('events_new.html')
 
-@event.route('/show')
-def event_show():
-    return render_template('events_show.html')
-
 @event.route('/create', methods=['POST'])
 def create_event():
-    owner_id   = request.json.get('owner_id') or None
-    owner_name = request.json['name']
-    event_name = request.json['event_name']
-    recipients = request.json.get('recipients') or []
-    date       = request.json['date']
-    time       = request.json['time']
+    owner_id   = session['current_user']['_id'] if 'current_user' in session else None
+    owner_name = request.form['owner_name']
+    event_name = request.form['event_name']
+    date       = request.form['date']
+    time       = request.form['time']
+    recipient_name1 = request.form.get('recipient_name1')
+    recipient_name2 = request.form.get('recipient_name2')
+    recipients = []
+
+    if recipient_name1:
+        recipients.append({recipient_name1: recipient_phone_number1})
 
     new_event = {
         '_id':        uuid.uuid4().hex,
@@ -49,4 +50,4 @@ def create_event():
 @event.route('/<event_id>', methods=['GET'])
 def show_event(event_id):
     event = events.find_one({'_id': event_id})
-    return render_template('events_show.html')
+    return render_template('events_show.html', event=event)

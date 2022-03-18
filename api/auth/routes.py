@@ -1,4 +1,4 @@
-from flask import Blueprint, request, jsonify, session, render_template, redirect, url_for, flash
+from flask import Blueprint, request, jsonify, session, render_template, redirect, url_for, flash, session
 from bson.objectid import ObjectId
 from extensions import *
 import uuid
@@ -9,7 +9,13 @@ auth = Blueprint("auth", __name__)
 
 @auth.route('/dashboard', methods=['GET'])
 def dashboard():
-    return render_template('dashboard.html')
+    if 'current_user' in session:
+        user = users.find_one({'phone_number': session['current_user']['phone_number']})
+        user_events = [e for e in events.find({'owner_id': user['_id']})]
+
+        return render_template('dashboard.html', events=user_events)
+
+    # return redirect('event.')
 
 @auth.route('/signup', methods=['GET', 'POST']) # Sign up Page
 def signup():
@@ -52,6 +58,7 @@ def signin():
     user = users.find_one({'phone_number' : phone_number})
     if user:
         if bcrypt.hashpw(request.form['password'].encode('utf-8'), user['password']) == user['password']:
+            del user['password']
             session['current_user'] = user
             flash('Signed In')
             return redirect(url_for('auth.dashboard'))

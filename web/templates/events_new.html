@@ -3,10 +3,10 @@
 {% block content %}
 <h1 class="py-4 text-center font-monospace">CREATE EVENT</h1>
 <div class="d-flex justify-content-center align-items-center">
-  <form class="w-50" action="/new-event" method="POST">
+  <form class="w-50" action="create" method="POST">
       <div class="form-group">
         <label class="fw-light">Name</label>
-        <input class="form-control my-2" placeholder="What's your name" type="text" name="name">
+        <input class="form-control my-2" placeholder="What's your name" type="text" name="owner_name">
       </div>
       <div class="form-group">
         <label  class="fw-light">Meeting name</label>
@@ -31,10 +31,10 @@
 
       <div class="form-group">
           <label class="fw-light">Name</label>
-          <input class="form-control my-2" placeholder="Recipient Name" type="text" name="recipient1">
+          <input class="form-control my-2" placeholder="Recipient Name" type="text" name="recipient2">
 
           <label class="fw-light">Phone Number</label>
-          <input class="form-control my-2" placeholder="Phone Number" type="number" name="phone_number1">
+          <input class="form-control my-2" placeholder="Phone Number" type="number" name="phone_number2">
       </div>
       <div class="d-flex justify-content-center py-2">
         <button type="submit" class="btn btn-secondary bg-light text-dark font-monospace">CREATE EVENT & INVITE PEOPLE</button>
