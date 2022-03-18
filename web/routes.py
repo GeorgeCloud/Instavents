@@ -32,6 +32,5 @@ def create_rsvp():
     # Post to api/events/create | event.create_event
     json_data = request.form.to_dict(flat=False)
     json_data['recipient_name']
-    import pdb; pdb.set_trace()
     res = requests.post(f'{api_url}/events/create', json=json_data)
-    return redirect(url_for(''))
+    return render_template('contact_lists.html')
