@@ -15,6 +15,10 @@ def index():
 def new_event():
     return render_template('events_new.html')
 
+@event.route('/show')
+def event_show():
+    return render_template('events_show.html')
+
 @event.route('/create', methods=['POST'])
 def create_event():
     owner_id   = request.json.get('owner_id') or None

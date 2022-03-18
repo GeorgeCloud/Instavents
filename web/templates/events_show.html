@@ -1,21 +1,24 @@
 {% extends 'base.html' %}
+{% include 'partials/navbar.html' %}
 {% block content %}
 
 <!-- <notification>Event Was Created</notification> -->
+<h1 class="py-4 text-center font-monospace">ALL DONE!</h1>
 
-<form class="bolder">
-    <p>Event title</p>
-    <p>host name</p>
-    <p>My Phone number: </p>
-    <p>Event time, date</p>
-    <p>Friend 1 | Pending</p>
-    <p>Friend 2 | Pending</p>
-    <!-- <button type="button" class="btn btn-primary">Invite more friend</button> -->
-</form>
+<div class="d-flex align-items-center justify-content-center">
+    <form class="border w-50 py-5 d-flex align-items-center flex-column text-left">
+        <p>Event title: event['event_name']</p>
+        <p>host name: event['owner_name']</p>
+        <p>My Phone number: event['phone_number']</p>
+        <p>Event time: event['time']</p>
+        <p>date: event['date']</p>
+        <p>Friend 1 | Pending</p>
+        <p>Friend 2 | Pending</p>
+        <!-- <button type="button" class="btn btn-primary">Invite more friend</button> -->
+        <button type="submit" class="btn btn-primary mx-2">Confirm</button>
+    </form>
+</div>
 
 <!-- <img src="" alt=""> -->
 <!-- _____ invited you to attend ____. Click here to respond. -->
-
-<button type="submit" class="btn btn-primary">Confirm</button>
-<button type="submit" class="btn btn-primary">Back</button>
 {% endblock %}
