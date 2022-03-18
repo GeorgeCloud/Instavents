@@ -32,7 +32,6 @@ def event_response(rsvp_id):
 
     rsvp.update_one({'_id': rsvp_id}, {'$set':{'status': response}})
 
-
 @event.route('/create', methods=['POST'])
 def create_event():
     owner_id          = session['current_user']['_id'] if 'current_user' in session else None
