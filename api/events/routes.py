@@ -15,6 +15,14 @@ def index():
 def new_event():
     return render_template('events_new.html')
 
+@event.route('/invite')
+def invite_recipients():
+    return render_template('events_respond.html')
+
+@event.route('/rsvp/<rsvp_id>', methods=['POST'])
+def event_response():
+    response = request.form.get('response')
+
 @event.route('/create', methods=['POST'])
 def create_event():
     owner_id        = session['current_user']['_id'] if 'current_user' in session else None

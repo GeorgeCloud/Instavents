@@ -1,5 +1,13 @@
-<form class="" action="index.html" method="post">
-  <!-- event information -->
-  <!-- yes or no -->
-  <!-- POST -->
+{% extends 'base.html' %}
+{% include 'partials/navbar.html' %}
+{% block content %}
+<h1 class="py-4 text-center font-monospace">Please let us know!</h1>
+<form class="d-flex justify-content-center" action="event_response" method="POST">
+  <form action="event_response" method="POST">
+    <button type="submit" name="response" value="true" class="mx-5 btn btn-primary bg-light text-dark font-monospace px-3">I'm coming</button>
+  </form>
+  <form action="event_response" method="POST">
+    <button type="submit" name= "response" value="false" class="mx-5 btn btn-danger bg-light text-dark font-monospace px-3">I can't make it</button>
+  </form>
 </form>
+{% endblock %}
