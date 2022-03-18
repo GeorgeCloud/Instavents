@@ -12,9 +12,9 @@ app.secret_key = 'georgeandahyeon777'
 
 app.register_blueprint(main, url_prefix='/')
 
-app.register_blueprint(auth, url_prefix='/api')
-app.register_blueprint(user, url_prefix='/api/users')
-app.register_blueprint(event, url_prefix='/api/events')
+app.register_blueprint(auth, url_prefix='/')
+app.register_blueprint(user, url_prefix='/users')
+app.register_blueprint(event, url_prefix='/events')
 
 if __name__ == '__main__':
     app.run(debug=True)

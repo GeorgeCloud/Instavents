@@ -1,4 +1,4 @@
-from flask import Blueprint, request, jsonify, session
+from flask import Blueprint, request, jsonify, session, render_template, redirect, url_for
 from bson.objectid import ObjectId
 from extensions import *
 import uuid
@@ -6,21 +6,27 @@ import bcrypt
 
 auth = Blueprint("auth", __name__)
 
-@auth.route('/signup', methods=['POST']) # Sign up Page
+@auth.route('/signup', methods=['GET', 'POST']) # Sign up Page
 def signup():
     if 'current_user' in session:
-         return jsonify({'Error' : 'You already signed in'}), 203
+         flash('You are already signed in')
+         return redirect(request.referrer)
 
-    name = request.json['name']
-    phone_number = request.json['phone_number']
-    password = request.json['password']
+    if request.method == 'GET':
+        return render_template('signup.html')
+
+    name = request.form['name']
+    phone_number = request.form['phone_number']
+    password = request.form['password']
 
     if users.find_one({'phone_number': phone_number}):
-        return jsonify({'Error' : 'The phone number already exists!'})
+        flash('The phone number already exists')
+        return redirect(request.referrer)
 
     if validate_number(phone_number): # +1 123-456-7890
         if len(password) < 8:
-            return jsonify({'Error' : 'Password needs to be minimum 8 characters'})
+            flash('Password needs to be minimum 8 characters')
+            return redirect(request.referrer)
 
         hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
         user_id = users.insert_one({
@@ -32,24 +38,31 @@ def signup():
 
         new_user = users.find_one({'_id': user_id})
         session['current_user'] = new_user
-        return jsonify([{'name' : new_user['name'], 'phone_number': new_user['phone_number']}])
+        flash('Account was successfully created')
+        return redirect('auth.signin')
     else:
-        return jsonify({'Error' : 'Type the correct number'})
+        flash('Invalid Phone Number')
+        return redirect(request.referrer)
 
-@auth.route('/signin', methods=['POST'])
+@auth.route('/signin', methods=['GET', 'POST'])
 def signin():
-    phone_number = request.json['phone_number']
-
     if 'current_user' in session:
-        return jsonify({'Error' : 'You already signed in'}), 203
+        flash('You are already signed in')
+        return redirect(request.referrer)
 
+    if request.method == 'GET':
+        return render_template('signin.html')
+
+    phone_number = request.form['phone_number']
     user = users.find_one({'phone_number' : phone_number})
     if user:
-        if bcrypt.hashpw(request.json['password'].encode('utf-8'), user['password']) == user['password']:
+        if bcrypt.hashpw(request.form['password'].encode('utf-8'), user['password']) == user['password']:
             session['current_user'] = user
-            return jsonify([{'name': user['name'], 'phone_number': user['phone_number']}])
+            flash('Signed In')
+            return render_template('dashboard.html')
 
-    return jsonify({'message' : 'Invalid email/password combination'})
+    flash('Invalid email/password combination')
+    return redirect(request.referrer)
 
 @auth.route('/logout', methods=['POST'])
 def logout():
