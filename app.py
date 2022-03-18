@@ -5,6 +5,7 @@ from bson.objectid import ObjectId
 from api.auth.routes import auth
 from api.users.routes import user
 from api.events.routes import event
+from web.routes import web
 
 app = Flask(__name__)
 app.secret_key = 'georgeandahyeon777'
@@ -12,6 +13,8 @@ app.secret_key = 'georgeandahyeon777'
 app.register_blueprint(auth, url_prefix='/api')
 app.register_blueprint(user, url_prefix='/api/users')
 app.register_blueprint(event, url_prefix='/api/events')
+# front-end
+app.register_blueprint(web, url_prefix='/')
 
 if __name__ == '__main__':
     app.run(debug=True)
