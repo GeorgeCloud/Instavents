@@ -8,9 +8,15 @@
 {% block content %}
 <h1 class="py-4 text-center font-monospace">DASHBOARD</h1>
 <div class="d-flex align-items-center justify-content-center py-2" >
-    <ul class="list-group w-50 fw-light text-center">
-        <a class="text-decoration-none" href="#"><li class="list-group-item mb-3">Event</li></a>
-        <a class="text-decoration-none" href="#"><li class="list-group-item mb-3 border-1 border">Event</li></a>
-      </ul>
+  <ul class="list-group w-50 fw-light text-center">
+    {% for event in events %}
+      <a class="text-decoration-none" href="/events/{{event._id}}">
+        <li class="list-group-item mb-3">
+          {{event.event_name}}
+        </li
+      </a>
+      <!-- <a class="text-decoration-none" href="#"><li class="list-group-item mb-3 border-1 border">Event</li></a> -->
+    {% endfor %}
+    </ul>
 </div>
 {% endblock %}
