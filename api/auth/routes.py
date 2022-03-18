@@ -1,16 +1,16 @@
-from flask import Blueprint, request, jsonify, session, render_template, redirect, url_for
+from flask import Blueprint, request, jsonify, session, render_template, redirect, url_for, flash
 from bson.objectid import ObjectId
 from extensions import *
 import uuid
 import bcrypt
+from utils import validate_number
 
 auth = Blueprint("auth", __name__)
 
 @auth.route('/signup', methods=['GET', 'POST']) # Sign up Page
 def signup():
     if 'current_user' in session:
-         flash('You are already signed in')
-         return redirect(request.referrer)
+        return render_template('dashboard.html')
 
     if request.method == 'GET':
         return render_template('signup.html')
@@ -24,7 +24,7 @@ def signup():
         return redirect(request.referrer)
 
     if validate_number(phone_number): # +1 123-456-7890
-        if len(password) < 8:
+        if len(password) <= 8:
             flash('Password needs to be minimum 8 characters')
             return redirect(request.referrer)
 
@@ -36,10 +36,8 @@ def signup():
             'password': hashed_password
         }).inserted_id
 
-        new_user = users.find_one({'_id': user_id})
-        session['current_user'] = new_user
         flash('Account was successfully created')
-        return redirect('auth.signin')
+        return redirect(url_for('auth.signin'))
     else:
         flash('Invalid Phone Number')
         return redirect(request.referrer)
@@ -48,7 +46,7 @@ def signup():
 def signin():
     if 'current_user' in session:
         flash('You are already signed in')
-        return redirect(request.referrer)
+        return render_template('dashboard.html')
 
     if request.method == 'GET':
         return render_template('signin.html')
@@ -64,7 +62,7 @@ def signin():
     flash('Invalid email/password combination')
     return redirect(request.referrer)
 
-@auth.route('/logout', methods=['POST'])
+@auth.route('/logout', methods=['GET', 'POST'])
 def logout():
     if 'current_user' in session:
         session.pop('current_user', None)
