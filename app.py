@@ -10,8 +10,6 @@ from web.routes import main
 app = Flask(__name__, template_folder="web/templates")
 app.secret_key = 'georgeandahyeon777'
 
-app.register_blueprint(main, url_prefix='/')
-
 app.register_blueprint(auth, url_prefix='/')
 app.register_blueprint(user, url_prefix='/users')
 app.register_blueprint(event, url_prefix='/events')

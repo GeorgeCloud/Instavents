@@ -7,13 +7,14 @@ from utils import validate_number
 
 auth = Blueprint("auth", __name__)
 
+@auth.route('/dashboard', methods=['GET'])
+def dashboard():
+    return render_template('dashboard.html')
+
 @auth.route('/signup', methods=['GET', 'POST']) # Sign up Page
 def signup():
-    if 'current_user' in session:
-        return render_template('dashboard.html')
-
-    if request.method == 'GET':
-        return render_template('signup.html')
+    if 'current_user' in session: return redirect(url_for('auth.dashboard'))
+    if request.method == 'GET': return render_template('signup.html')
 
     name = request.form['name']
     phone_number = request.form['phone_number']
@@ -44,12 +45,8 @@ def signup():
 
 @auth.route('/signin', methods=['GET', 'POST'])
 def signin():
-    if 'current_user' in session:
-        flash('You are already signed in')
-        return render_template('dashboard.html')
-
-    if request.method == 'GET':
-        return render_template('signin.html')
+    if 'current_user' in session: return redirect(url_for('auth.dashboard'))
+    if request.method == 'GET': return render_template('signin.html')
 
     phone_number = request.form['phone_number']
     user = users.find_one({'phone_number' : phone_number})
@@ -57,7 +54,7 @@ def signin():
         if bcrypt.hashpw(request.form['password'].encode('utf-8'), user['password']) == user['password']:
             session['current_user'] = user
             flash('Signed In')
-            return render_template('dashboard.html')
+            return redirect(url_for('auth.dashboard'))
 
     flash('Invalid email/password combination')
     return redirect(request.referrer)
