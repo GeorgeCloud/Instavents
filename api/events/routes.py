@@ -4,8 +4,6 @@ from api.twilio_api import create_rsvp
 from extensions import *
 import uuid
 
-
-
 event = Blueprint("event", __name__)
 
 @event.route('/', methods=['GET'])
@@ -15,10 +13,10 @@ def index():
 
 @event.route('/create', methods=['POST'])
 def create_event():
-    owner_id   = request.json['owner_id'] or None
+    owner_id   = request.json.get('owner_id') or None
     owner_name = request.json['name']
     event_name = request.json['event_name']
-    recipients = request.json['recipients']
+    recipients = request.json.get('recipients') or []
     date       = request.json['date']
     time       = request.json['time']
 
