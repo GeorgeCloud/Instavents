@@ -15,7 +15,7 @@ def dashboard():
 
         return render_template('dashboard.html', events=user_events)
 
-    # return redirect('event.')
+    return redirect(url_for('auth.signin'))
 
 @auth.route('/signup', methods=['GET', 'POST']) # Sign up Page
 def signup():

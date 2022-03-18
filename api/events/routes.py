@@ -17,28 +17,28 @@ def new_event():
 
 @event.route('/create', methods=['POST'])
 def create_event():
-    owner_id   = session['current_user']['_id'] if 'current_user' in session else None
-    owner_name = request.form['owner_name']
-    event_name = request.form['event_name']
-    owner_phone_number = request.form['owner_phone_number']
-    date       = request.form['date']
-    time       = request.form['time']
+    owner_id        = session['current_user']['_id'] if 'current_user' in session else None
+    owner_name      = request.form['owner_name']
+    event_name      = request.form['event_name']
+    phone_number    = request.form['phone_number']
+    date            = request.form['date']
+    time            = request.form['time']
     recipient_name1 = request.form.get('recipient_name1')
     recipient_name2 = request.form.get('recipient_name2')
-    recipients = []
+    recipients      = []
 
     if recipient_name1:
         recipients.append({recipient_name1: recipient_phone_number1})
 
     new_event = {
-        '_id':        uuid.uuid4().hex,
-        'owner_id':   owner_id,
-        'owner_name': owner_name,
-        'owner_phone_number': owner_phone_number,
-        'event_name': event_name,
-        'rsvps':      [],
-        'date':       date,
-        'time':       time
+        '_id':         uuid.uuid4().hex,
+        'owner_id':    owner_id,
+        'owner_name':  owner_name,
+        'owner_number': phone_number,
+        'name':        event_name,
+        'rsvps':       [],
+        'date':        date,
+        'time':        time
     }
 
     event_id  = events.insert_one(new_event).inserted_id
