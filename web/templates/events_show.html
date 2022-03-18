@@ -14,7 +14,7 @@
             <p><b>Event Time:</b> {{event['time']}}</p>
             <p><b>Date:</b> {{event['date']}}</p>
             {% for rsvp in rsvps %}
-              <p><b>{{ rsvp['recipient_name'] }}</b> | rsvp['status']</p>
+              <p><b>{{ rsvp['recipient_name'] }}</b> | {{ rsvp['status'] }}</p>
             {% endfor %}
             <!-- <button type="button" class="btn btn-primary">Invite more friend</button> -->
             <div class="pt-3">

@@ -29,7 +29,6 @@ def event_response(rsvp_id):
     if request.method == 'GET':
         return render_template('events_respond.html', event=event)
 
-    import pdb; pdb.set_trace()
     response = True if request.form.get('response') == 'true' else False
 
     rsvps.update_one({'_id': rsvp_id}, {'$set':{'status': response}})
