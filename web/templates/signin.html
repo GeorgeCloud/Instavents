@@ -1,16 +1,21 @@
 {% extends 'base.html' %}
+{% include 'partials/navbar.html' %}
 {% block content %}
-<h1>Sign In</h1>
-<form class="bolder" action="/signin" method="POST">
-    <div class="form-group">
-      <label>Phone Number</label>
-      <input class="form-control" placeholder="Phone Number" type="text" name="phone_number">
-    </div>
-    <div class="form-group">
-        <label>Password</label>
-        <input class="form-control" min="8" placeholder="Password" type="password" name="password">
-    </div>
-    <button type="submit" class="btn btn-primary">Login</button>
-    <p>Don't have an account? <a href="/signup">Sign up</a></p>
-</form>
+<h1 class="py-4 text-center font-monospace">Sign In</h1>
+<div class="d-flex justify-content-center">
+    <form class="w-50" action="/signin" method="POST">
+        <div class="form-group">
+        <label class="fw-light">Phone Number</label>
+        <input class="form-control my-2" placeholder="Phone Number" type="text" name="phone_number">
+        </div>
+        <div class="form-group">
+            <label class="fw-light">Password</label>
+            <input class="form-control my-2" min="8" placeholder="Password" type="password" name="password">
+        </div>
+        <div class="d-flex justify-content-center my-4">
+            <button type="submit" class="btn btn-secondary bg-light text-dark font-monospace px-3">Login</button>
+        </div>
+        <p class="text-center">Don't have an account? <a class="mx-3 text-decoration-none font-monospace" href="/signup">Sign-up</a></p>
+    </form>
+</div>
 {% endblock %}
