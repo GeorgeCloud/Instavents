@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<div class="border py-5">
   <h1>Create Event</h1>
   <form class="bolder" action="/new-event" method="POST">
       <div class="form-group">
@@ -47,4 +48,5 @@
 
       <button type="submit" class="btn btn-primary">Create Event & Invite People</button>
   </form>
+</div>
 {% endblock %}

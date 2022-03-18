@@ -17,7 +17,7 @@ def index():
 def new_event():
     # Creating meeting page
     if request.method == 'GET':
-        return render_template('event_create.html')
+        return render_template('dashboard.html')
 
     # Post to api/events/create | event.create_event
     res = requests.post(f'{api_url}/events/create', json=request.form.to_dict(flat=False))
