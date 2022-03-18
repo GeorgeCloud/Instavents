@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify
-from api.extensions import *
+from extensions import *
 
 user = Blueprint("user", __name__)
 
