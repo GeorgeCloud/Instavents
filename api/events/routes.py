@@ -1,4 +1,4 @@
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request, jsonify, render_template
 from bson.objectid import ObjectId
 from api.twilio_api import create_rsvp
 from extensions import *
@@ -10,6 +10,10 @@ event = Blueprint("event", __name__)
 def index():
     output = [event for event in events.find()]
     return output
+
+@event.route('/new')
+def new_event():
+    return render_template('events_new.html')
 
 @event.route('/create', methods=['POST'])
 def create_event():
