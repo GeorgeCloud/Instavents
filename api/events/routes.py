@@ -20,7 +20,7 @@ def create_event():
     owner_id   = session['current_user']['_id'] if 'current_user' in session else None
     owner_name = request.form['owner_name']
     event_name = request.form['event_name']
-    event_name = request.form['phone_number']
+    owner_phone_number = request.form['owner_phone_number']
     date       = request.form['date']
     time       = request.form['time']
     recipient_name1 = request.form.get('recipient_name1')
@@ -34,6 +34,7 @@ def create_event():
         '_id':        uuid.uuid4().hex,
         'owner_id':   owner_id,
         'owner_name': owner_name,
+        'owner_phone_number': owner_phone_number,
         'event_name': event_name,
         'rsvps':      [],
         'date':       date,
