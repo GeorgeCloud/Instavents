@@ -1,4 +1,4 @@
-from flask import Blueprint, request, jsonify, render_template, session, redirect, url_for
+from flask import Blueprint, request, jsonify, render_template, session, redirect, url_for, flash
 from bson.objectid import ObjectId
 from api.twilio_api import create_rsvp
 from extensions import *
@@ -19,14 +19,20 @@ def new_event():
 @event.route('/rsvp/<rsvp_id>', methods=['GET', 'POST'])
 def event_response(rsvp_id):
     rsvp = rsvps.find_one({'_id': rsvp_id})
+
+    if not rsvp:
+        flash('Invitation is expired or invalid')
+        return redirect(url_for('auth.signin'))
+
     event = events.find_one({'_id': rsvp['event_id']})
 
     if request.method == 'GET':
         return render_template('events_respond.html', event=event)
 
+    import pdb; pdb.set_trace()
     response = True if request.form.get('response') == 'true' else False
 
-    rsvp.update_one({'_id': rsvp_id}, {'$set':{'status': response}})
+    rsvps.update_one({'_id': rsvp_id}, {'$set':{'status': response}})
 
 @event.route('/create', methods=['POST'])
 def create_event():
