@@ -36,5 +36,5 @@ def create_rsvp(recipient, event_id):
         client.messages.create(
             to=f'{phone_number}',
             from_=f'{twilio_phone_number}',
-            body=f'https://instavents.herokuapp.com/rsvp/{rsvp_id}'
+            body=f'https://instavents.herokuapp.com/evnts/rsvp/{rsvp_id}'
         )
