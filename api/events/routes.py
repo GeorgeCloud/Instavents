@@ -50,7 +50,4 @@ def get_events_by_user(user_id):
 @event.route('/<event_id>', methods=['GET'])
 def show_event(event_id):
     event = events.find_one({'_id': event_id})
-    if event:
-        return jsonify({'event result' : event}), 200
-
-    return jsonify({'event result' : 'not found'}), 404
+    return render_template('events_show')
