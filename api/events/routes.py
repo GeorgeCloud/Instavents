@@ -19,9 +19,19 @@ def new_event():
 def invite_recipients():
     return render_template('events_respond.html')
 
-@event.route('/rsvp/<rsvp_id>', methods=['POST'])
-def event_response():
-    response = request.form.get('response')
+# http://127.0.0.1:5000/events/rsvp/e4a77b17191842fea244d1c484b936b2
+@event.route('/rsvp/<rsvp_id>', methods=['GET', 'POST'])
+def event_response(rsvp_id):
+    rsvp = rsvps.find_one({'_id': rsvp_id})
+    event = events.find_one({'_id': rsvp['event_id']})
+
+    if request.method == 'GET':
+        return render_template('events_respond.html', event=event)
+
+    response = True if request.form.get('response') == 'true' else False
+
+    rsvp.update_one({'_id': rsvp_id}, {'$set':{'status': response}})
+
 
 @event.route('/create', methods=['POST'])
 def create_event():
