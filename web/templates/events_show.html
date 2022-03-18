@@ -14,7 +14,7 @@
             <p><b>Event Time:</b> {{event['time']}}</p>
             <p><b>Date:</b> {{event['date']}}</p>
             {% for rsvp in rsvps %}
-              <p><b>{{ rsvp['recipient_name'] }}</b> | rsvp['status']</p>
+              <p><b>{{ rsvp['recipient_name'] }}</b> | {{'Attending' if rsvp['status'] else ('Pending' if rsvp['status'] == None else 'Denied')}}</p>
             {% endfor %}
             <!-- <button type="button" class="btn btn-primary">Invite more friend</button> -->
             <div class="pt-3">
@@ -22,8 +22,10 @@
             </div>
         </div>
     </div>
-</div>
+    <!-- <h3 class="py-4 text-center font-monospace">Message Sent!</h3> -->
+    <img src="https://i.postimg.cc/yYkG8gNG/preview.jpg" width="300px">
 
+</div>
 <!-- <img src="" alt=""> -->
 <!-- _____ invited you to attend ____. Click here to respond. -->
 {% endblock %}
