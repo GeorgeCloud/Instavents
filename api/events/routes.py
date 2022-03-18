@@ -9,7 +9,7 @@ event = Blueprint("event", __name__)
 @event.route('/', methods=['GET'])
 def index():
     output = [event for event in events.find()]
-    return jsonify({'meetings result' : output}), 200
+    return output
 
 @event.route('/create', methods=['POST'])
 def create_event():
@@ -31,23 +31,14 @@ def create_event():
     }
 
     event_id  = events.insert_one(new_event).inserted_id
-    event     = events.find_one({'_id' : event_id})
+    # event     = events.find_one({'_id' : event_id})
 
     for recipient in recipients:
         create_rsvp(recipient, event_id)
 
-    return jsonify(event), 200
-
-#If signed in
-@event.route('/user/<user_id>', methods=['GET'])
-def get_events_by_user(user_id):
-    output = [e for e in events.find({'owner_id': user_id})]
-    if output:
-        return jsonify({'events result' : output}), 200
-
-    return jsonify({'events result' : 'not found'}), 404
+    return redirect(url_for('event.show_event', event_id=event_id))
 
 @event.route('/<event_id>', methods=['GET'])
 def show_event(event_id):
     event = events.find_one({'_id': event_id})
-    return render_template('events_show')
+    return render_template('events_show.html')

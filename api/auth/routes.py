@@ -55,4 +55,4 @@ def signin():
 def logout():
     if 'current_user' in session:
         session.pop('current_user', None)
-    return jsonify({'message' : 'You successfully logged out'})
+    return redirect(url_for('auth.signin'))
