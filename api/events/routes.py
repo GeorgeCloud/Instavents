@@ -33,7 +33,7 @@ def create_event():
     }
 
     event_id  = events.insert_one(new_event).inserted_id
-    event = events.find_one({'_id' : event_id})
+    event     = events.find_one({'_id' : event_id})
 
     for recipient in recipients:
         create_rsvp(recipient, event_id)
