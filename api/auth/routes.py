@@ -7,6 +7,10 @@ from utils import validate_number
 
 auth = Blueprint("auth", __name__)
 
+@auth.route('/', methods=['GET'])
+def index():
+    return redirect(url_for('event.new_event'))
+
 @auth.route('/dashboard', methods=['GET'])
 def dashboard():
     if 'current_user' in session:

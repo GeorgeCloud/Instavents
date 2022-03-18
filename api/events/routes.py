@@ -25,18 +25,20 @@ def event_response():
 
 @event.route('/create', methods=['POST'])
 def create_event():
-    owner_id        = session['current_user']['_id'] if 'current_user' in session else None
-    owner_name      = request.form['owner_name']
-    event_name      = request.form['event_name']
-    phone_number    = request.form['phone_number']
-    date            = request.form['date']
-    time            = request.form['time']
-    recipient_name1 = request.form.get('recipient_name1')
-    recipient_name2 = request.form.get('recipient_name2')
-    recipients      = []
+    owner_id          = session['current_user']['_id'] if 'current_user' in session else None
+    owner_name        = request.form['owner_name']
+    event_name        = request.form['event_name']
+    phone_number      = request.form['phone_number']
+    date              = request.form['date']
+    time              = request.form['time']
+    recipient_name1   = request.form.get('recipient_name1')
+    recipient_number1 = request.form.get('recipient_number1')
+    recipient_name2   = request.form.get('recipient_name2')
+    recipient_number2 = request.form.get('recipient_number2')
+    recipients        = []
 
-    if recipient_name1:
-        recipients.append({recipient_name1: recipient_phone_number1})
+    if recipient_name1 and recipient_number1:
+        recipients.append({'name': recipient_name1, 'number': recipient_number1})
 
     new_event = {
         '_id':         uuid.uuid4().hex,

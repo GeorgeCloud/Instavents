@@ -1,12 +1,15 @@
 <nav class="navbar navbar-light bg-light border-bottom border-3">
-    <div class="container-fluid">
-        <div class="d-flex justify-content-center mx-5">
-            <a class="navbar-brand" href="/dashboard">Dashboard</a>
-            <a class="navbar-brand" href="/events/new">Create event</a>
-        </div>
-      <form class="d-flex w-25">
-        <img class="mt-2" src="https://png.pngitem.com/pimgs/s/150-1503945_transparent-user-png-default-user-image-png-png.png" width="50px">
-        <a class="mt-3 px-3 fs-5 text-decoration-none text-dark" href="/logout">Sign out</a>
-      </form>
+  <div class="container-fluid">
+    <div class="d-flex justify-content-center mx-5">
+      <a class="navbar-brand" href="/dashboard">Dashboard</a>
+      <a class="navbar-brand" href="/events/new">Create event</a>
     </div>
-  </nav>
+
+    {% if 'current_user' in session %}
+    <form class="d-flex w-25">
+      <img class="mt-2" src="https://png.pngitem.com/pimgs/s/150-1503945_transparent-user-png-default-user-image-png-png.png" width="50px">
+      <a class="mt-3 px-3 fs-5 text-decoration-none text-dark" href="/logout">Sign out</a>
+    </form>
+    {% endif %}
+  </div>
+</nav>
