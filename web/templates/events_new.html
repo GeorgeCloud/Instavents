@@ -1,52 +1,44 @@
 {% extends 'base.html' %}
-
+{% include 'partials/navbar.html' %}
 {% block content %}
-<div class="border py-5">
-  <h1>Create Event</h1>
-  <form class="bolder" action="/new-event" method="POST">
+<h1 class="py-4 text-center font-monospace">CREATE EVENT</h1>
+<div class="d-flex justify-content-center align-items-center">
+  <form class="w-50" action="/new-event" method="POST">
       <div class="form-group">
-        <label>Name</label>
-        <input class="form-control" placeholder="What's your name" type="text" name="name">
+        <label class="fw-light">Name</label>
+        <input class="form-control my-2" placeholder="What's your name" type="text" name="name">
       </div>
       <div class="form-group">
-        <label>Meeting name</label>
-        <input class="form-control" placeholder="e.g. Dinner at Joey's" type="text" name="event_name">
+        <label  class="fw-light">Meeting name</label>
+        <input class="form-control my-2" placeholder="e.g. Dinner at Joey's" type="text" name="event_name">
       </div>
       <div class="form-group">
-          <label>Date</label>
-          <input class="form-control" placeholder="DD/MM/YYYY" type="date" name="date">
+          <label  class="fw-light">Date</label>
+          <input class="form-control my-2" placeholder="DD/MM/YYYY" type="date" name="date">
         </div>
       <div class="form-group">
-          <label>Time</label>
-          <input class="form-control" placeholder="00:00 AM" type="time" name="time">
+          <label  class="fw-light">Time</label>
+          <input class="form-control my-2" placeholder="00:00 AM" type="time" name="time">
       </div>
-
-      <h5>Recipients</h5>
+      <h3 class="pt-4 pb-2 text-center font-monospace">Recipients</h3>
       <div class="form-group">
-          <label>Name</label>
-          <input class="form-control" placeholder="Recipient Name" type="text" name="recipient1">
+          <label class="fw-light">Name</label>
+          <input class="form-control my-2" placeholder="Recipient Name" type="text" name="recipient1">
 
-          <label>Phone Number</label>
-          <input class="form-control" placeholder="Phone Number" type="number" name="phone_number1">
-      </div>
-
-      <div class="form-group">
-          <label>Name</label>
-          <input class="form-control" placeholder="Recipient Name" type="text" name="recipient1">
-
-          <label>Phone Number</label>
-          <input class="form-control" placeholder="Phone Number" type="number" name="phone_number1">
+          <label class="fw-light">Phone Number</label>
+          <input class="form-control my-2" placeholder="Phone Number" type="number" name="phone_number1">
       </div>
 
       <div class="form-group">
-          <label>Name</label>
-          <input class="form-control" placeholder="Recipient Name" type="text" name="recipient1">
+          <label class="fw-light">Name</label>
+          <input class="form-control my-2" placeholder="Recipient Name" type="text" name="recipient1">
 
-          <label>Phone Number</label>
-          <input class="form-control" placeholder="Phone Number" type="number" name="phone_number1">
+          <label class="fw-light">Phone Number</label>
+          <input class="form-control my-2" placeholder="Phone Number" type="number" name="phone_number1">
       </div>
-
-      <button type="submit" class="btn btn-primary">Create Event & Invite People</button>
+      <div class="d-flex justify-content-center py-2">
+        <button type="submit" class="btn btn-secondary bg-light text-dark font-monospace">CREATE EVENT & INVITE PEOPLE</button>
+      </div>
   </form>
 </div>
 {% endblock %}

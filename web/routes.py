@@ -13,6 +13,10 @@ api_url = 'http://localhost:5000/api'
 def index():
     return redirect(url_for('main.new_event'))
 
+@main.route('/create_event')
+def create_event():
+    return render_template('events_new.html')
+
 @main.route('/new-event', methods=['GET', 'POST'])
 def new_event():
     # Creating meeting page
